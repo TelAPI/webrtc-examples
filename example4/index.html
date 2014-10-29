@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//sdk.files.telapi.com/release/jssdk.min.js"></script>
+    <script type="text/javascript">
+
+        call_session = null;
+        telapi_client = null;
+        incoming_event = null;
+
+        $(function() {
+
+            telapi_client = new TelAPI.Client({
+                token: '[token_here]',
+                password: '[password_here]',
+                debug:true
+            });
+
+            telapi_client.connect();
+
+            telapi_client.on('incomingCall', function(event) {
+                telapi_client.sounds.play('incoming_call', true);
+                incoming_event = event;
+                $('#answer_button').removeAttr('disabled');
+                incoming_event.request.session.on('answered', function(e) {
+                    telapi_client.sounds.stop('incoming_call');
+                });
+            });
+
+        });
+
+        function answer() {
+            incoming_event.request.session.answer();
+        }
+
+    </script>
+</head>
+
+<body>
+
+<h1>TelAPI WebRTC Example 4 - Callee</h1>
+
+<button onclick="answer()" id="answer_button" disabled="disabled">Answer Call</button>
+
+</body>
+
+</html>

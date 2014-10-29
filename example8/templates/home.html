@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conference Test</title>
+    <script type="text/javascript">
+        
+        function new_conf(conference_name) {
+            window.location.href = './' + conference_name;
+        }
+
+    </script>
+</head>
+<body>
+
+    <h1>TelAPI WebRTC Example 8</h1>
+
+    <button onclick="new_conf('{{ conference_name }}');">New Conference</button>
+
+</body>
+</html>

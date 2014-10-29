@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conference Test</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//sdk.files.telapi.com/release/jssdk.min.js"></script>
+    <script type="text/javascript">
+        var cl_token = '{{ token }}';
+        var cl_password = '{{ password }}';
+    </script>
+    <script type="text/javascript">
+
+        window.onload=function(){
+            telapi_client = new TelAPI.Client({
+                debug: true,
+                trace_sip: true,
+                token: cl_token,
+                password: cl_password,
+                sounds: {
+                    disable_all_sounds: false,
+                    disable_client_sounds: false,
+                    disable_call_sounds: false,
+                    disable_tone_sounds: false
+                },
+            });
+
+            telapi_client.connect();
+        }
+
+        function dial_number() {
+            call = telapi_client.call(null, {
+                    number: $('#number').val(),
+                }, {
+                answered: function() {
+                    
+                },
+                hangup: function(e) {
+                    
+                },
+                failed: function(e) {
+                    alert("call failed due to : ", e.args.data)
+                    var out = '';
+                    var obj = e.args.data;
+                    for (var i in obj) {
+                        out += i + ": " + obj[i] + "\n";
+                    }
+                    console.log(out);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+    <h1>TelAPI WebRTC Example 7</h1>
+
+    <input type="text" id="number" />
+    <button onclick="dial_number()">Dial</button>
+
+</body>
+</html>

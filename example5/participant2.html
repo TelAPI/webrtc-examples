@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//sdk.files.telapi.com/release/jssdk.min.js"></script>
+    <script type="text/javascript">
+
+        call_session = null;
+        telapi_client = null;
+
+        $(function() {
+
+            telapi_client = new TelAPI.Client({
+                token: '[token_here]',
+                password: '[password_here]',
+                debug:true
+            });
+
+            telapi_client.connect();
+
+        });
+
+        function dial() {
+            call_session = telapi_client.call(
+                'test',
+                {test : 'test'},
+                {
+                    beforeAnswer: function() {
+                        console.log('This is a new outbound call...');
+                    },
+                    answered: function() {
+                        console.log('Call is now on air...');
+                    },
+                    hangup: function() {
+                        console.log('Call has been hung up');
+                    },
+                    failed: function(e) {
+                        console.log('Call failed');
+                    }
+                }
+            );
+        };
+
+    </script>
+</head>
+
+<body>
+
+<h1>TelAPI WebRTC Example 5 - Participant 2</h1>
+
+<button onclick="dial()">Dial Conference</button>
+
+</body>
+
+</html>

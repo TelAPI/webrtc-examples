@@ -1,0 +1,5 @@
+<Response>
+    <Dial>
+        <Conference>test-conference</Conference>
+    </Dial>
+</Response>
